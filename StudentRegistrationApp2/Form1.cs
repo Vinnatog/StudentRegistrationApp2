@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,20 +12,33 @@ namespace StudentRegistrationApp2
 {
     public partial class Form1 : Form
     {
+        
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void DisplayInfo(string fullname, string gender, string dob, string program)
         {
+           
 
+            string message = "Student Name: " + fullname + "\nGender: " 
+                + gender + "\nDate of Birth: " + dob + "\nProgram: " + program;
+            
+            MessageBox.Show(message);
+            
+        }
+        private void DisplayInfo(string fullname, string program)
+        {
+            string message = "Student Name: " + fullname + "\nProgram: " + program;
+            MessageBox.Show(message);
+        }
+        private void DisplayInfo(string firstname, string lastname, string program) {
+            
+           string message = "Student Name: " + firstname + " " + lastname + "\nProgram: " + program;
+            MessageBox.Show(message);
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -47,19 +61,20 @@ namespace StudentRegistrationApp2
                 MessageBoxButtons button = MessageBoxButtons.OK;
                 return;
             }
-            int day = (int)cbday.SelectedItem;
-            int month = cbmonth.SelectedIndex + 1;
+            int day = (int)cbday.SelectedItem - 1;
+            int month = cbmonth.SelectedIndex - 1;
             int Year = (int)cbyear.SelectedItem;
             String program = cbprogram.Text;
 
             DateTime dateTime = new DateTime(Year, month, day);
             
-
-
-
-            MessageBox.Show("Student name: " + fname + " " + mname + " " + lname + "\n" + "Gender: " + gender + "\n" + "Date of Birth: " + dateTime.ToString("dd/MM/yyyy") + "\n"+ "Program: " + program);
-            MessageBoxButtons button1 = MessageBoxButtons.OK;
+            string dob = dateTime.ToString("MMMM dd, yyyy");
+            string fullname = fname + " " + mname + " " + lname + "";
            
+
+            DisplayInfo(fullname, gender , dob, program);
+            DisplayInfo(fullname, program);
+            DisplayInfo(fname, lname, program);
 
             if (lname == "" || fname == "" || mname == "")
             {
@@ -96,39 +111,11 @@ namespace StudentRegistrationApp2
             
 
 
-            for (int y = 1940; y <= DateTime.Now.Year; y++)
+           int currentYear = DateTime.Now.Year;
+            for (int i = currentYear; i >= 1900; i--)
             {
-                cbyear.Items.Add(y);
-                cbday.SelectedIndex = 0;
-                cbmonth.SelectedIndex = 0;
-                cbyear.SelectedIndex = 0;
-                cbprogram.SelectedIndex = 0;
+                cbyear.Items.Add(i);
             }
-        }
-
-        private void tblname_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tbmname_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void rbfmale_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbday_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbmonth_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void cbyear_SelectedIndexChanged(object sender, EventArgs e)
@@ -137,6 +124,23 @@ namespace StudentRegistrationApp2
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+           OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+               pictureBox1.Image = new Bitmap(openFileDialog.FileName);
+                pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }
